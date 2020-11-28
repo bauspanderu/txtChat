@@ -13,7 +13,7 @@ Public Class PrvWindow
         PrvBox.ScrollToCaret()
     End Sub
 
-    Private Sub PrvWindow_Load(ByVal sender, ByVal e) Handles MyBase.Load
+    Private Sub PrvWindow_Load(sender, e) Handles MyBase.Load
 
         Text = "Private Chat with " & Form1.PrivateUser.Text
 
@@ -75,7 +75,7 @@ Public Class PrvWindow
 
     End Sub
 
-    Private Sub PrvMsg_KeyDown(ByVal sender As Object, ByVal e As KeyEventArgs) Handles PrvMsg.KeyDown
+    Private Sub PrvMsg_KeyDown(sender As Object, e As KeyEventArgs) Handles PrvMsg.KeyDown
         If e.KeyCode = Keys.Enter Then
             Send_Private()
             e.Handled = True
@@ -124,7 +124,7 @@ Public Class PrvWindow
         End Using
     End Sub
 
-    Private Sub frmProgramma_FormClosing(ByVal sender As Object, ByVal e As FormClosingEventArgs) Handles Me.FormClosing
+    Private Sub frmProgramma_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
         If File.Exists(Path.GetDirectoryName(Form1.OpenFileDialog1.FileName) & "\" & Form1.uname.Text & Form1.PrivateUser.Text & ".prv") Then
 
             Close_prv(Form1.uname.Text & Form1.PrivateUser.Text & ".prv")

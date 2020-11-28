@@ -3,27 +3,35 @@
 Public Class Form1
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click 'opens Fileselect
-        Dim fileselect As DialogResult = OpenFileDialog1.ShowDialog()
+        OpenFileDialog1.ShowDialog()
     End Sub
 
-    Private Sub OpenFileDialog1_FileOk(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles OpenFileDialog1.FileOk 'sets up when file was selected
+    Private Sub OpenFileDialog1_FileOk(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles OpenFileDialog1.FileOk 'sets up when file was selected, checks for onl file
 
-        Dim chatroomlabel1 = chatroomlabel
-        chatroomlabel1.Text = OpenFileDialog1.FileName
+        If File.Exists(OpenFileDialog1.FileName + ".onl") Then
 
-        FileSystemWatcher1.Path = Path.GetDirectoryName(OpenFileDialog1.FileName)
-        FileSystemWatcher1.Filter = OpenFileDialog1.SafeFileName
-        FileSystemWatcher1.EnableRaisingEvents = True
+            Dim chatroomlabel1 = chatroomlabel
+            chatroomlabel1.Text = OpenFileDialog1.FileName
 
-        Dim rawop As String = File.ReadAllText(OpenFileDialog1.FileName)
-        output.Text = rawop
+            FileSystemWatcher1.Path = Path.GetDirectoryName(OpenFileDialog1.FileName)
+            FileSystemWatcher1.Filter = OpenFileDialog1.SafeFileName
+            FileSystemWatcher1.EnableRaisingEvents = True
 
-        output.SelectionStart = output.Text.Length
-        output.ScrollToCaret()
+            Dim rawop As String = File.ReadAllText(OpenFileDialog1.FileName)
+            output.Text = rawop
 
-        Button1.Enabled = False
-        uname.Enabled = True
-        Button2.Enabled = True
+            output.SelectionStart = output.Text.Length
+            output.ScrollToCaret()
+
+            Button1.Enabled = False
+            uname.Enabled = True
+            Button2.Enabled = True
+
+        Else
+
+            MsgBox("This chatroom won't work, try another one.")
+
+        End If
 
     End Sub
 
@@ -61,7 +69,7 @@ Public Class Form1
 
     End Sub
 
-    Private Sub uname_KeyDown(ByVal sender As Object, ByVal e As KeyEventArgs) Handles uname.KeyDown 'sets Username when enter is pressed
+    Private Sub uname_KeyDown(sender As Object, e As KeyEventArgs) Handles uname.KeyDown 'sets Username when enter is pressed
 
         If e.KeyCode = Keys.Enter Then
             Select_Username()
@@ -106,7 +114,7 @@ Public Class Form1
         Message_Send()
 
     End Sub
-    Private Sub msg_KeyDown(ByVal sender As Object, ByVal e As KeyEventArgs) Handles message.KeyDown 'sends a message when enter is pressed
+    Private Sub msg_KeyDown(sender As Object, e As KeyEventArgs) Handles message.KeyDown 'sends a message when enter is pressed
         If e.KeyCode = Keys.Enter And Button3.Enabled = True Then
             Message_Send()
             e.Handled = True
@@ -114,7 +122,7 @@ Public Class Form1
         End If
     End Sub
 
-    Private Sub frmProgramma_FormClosing(ByVal sender As Object, ByVal e As FormClosingEventArgs) Handles Me.FormClosing 'sends close message when user closes program
+    Private Sub frmProgramma_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing 'sends close message when user closes program
 
         If uname.TextLength <> 0 Then
 
